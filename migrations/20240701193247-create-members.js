@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Members", {
+    await queryInterface.createTable("members", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,7 +16,7 @@ module.exports = {
       organizationId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Organizations", // This should match the table name defined in your Organization model
+          model: "organizations", // This should match the table name defined in your Organization model
           key: "id",
         },
         onUpdate: "CASCADE",
@@ -45,6 +45,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Members");
+    await queryInterface.dropTable("members");
   },
 };

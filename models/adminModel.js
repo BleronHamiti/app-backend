@@ -76,6 +76,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "Admin",
+      tableName: "admins",
       // Other model options...
     }
   );

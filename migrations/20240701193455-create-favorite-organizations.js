@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("FavoriteOrganizations", {
+    await queryInterface.createTable("favoriteOrganizations", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Volunteers", // This should match the table name defined in your Volunteer model
+          model: "volunteers", // This should match the table name defined in your Volunteer model
           key: "id",
         },
         onUpdate: "CASCADE",
@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Organizations", // This should match the table name defined in your Organization model
+          model: "organizations", // This should match the table name defined in your Organization model
           key: "id",
         },
         onUpdate: "CASCADE",
@@ -43,6 +43,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("FavoriteOrganizations");
+    await queryInterface.dropTable("favoriteOrganizations");
   },
 };
