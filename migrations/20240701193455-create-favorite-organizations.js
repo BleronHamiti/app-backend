@@ -13,23 +13,21 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "volunteers", // This should match the table name defined in your Volunteer model
+          model: "volunteers",
           key: "id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
-        name: "fk_favoriteOrganizations_volunteerId",
       },
       organizationId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "organizations", // This should match the table name defined in your Organization model
+          model: "organizations",
           key: "id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
-        name: "fk_favoriteOrganizations_organizationId",
       },
       createdAt: {
         allowNull: false,
