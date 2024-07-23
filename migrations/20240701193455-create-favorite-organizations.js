@@ -18,6 +18,7 @@ module.exports = {
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
+        name: "fk_favoriteOrganizations_volunteerId",
       },
       organizationId: {
         type: Sequelize.INTEGER,
@@ -28,6 +29,7 @@ module.exports = {
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
+        name: "fk_favoriteOrganizations_organizationId",
       },
       createdAt: {
         allowNull: false,
