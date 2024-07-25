@@ -43,7 +43,7 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "Volunteers", // This reference is symbolic and for informational purposes. Actual FK constraints are managed separately.
+          // model: "Volunteers", // This reference is symbolic and for informational purposes. Actual FK constraints are managed separately.
           key: "id",
         },
       },
@@ -51,7 +51,7 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "Organizations", // As above, this is primarily informational unless you're using Sequelize to manage schema migrations.
+          // model: "Organizations", // As above, this is primarily informational unless you're using Sequelize to manage schema migrations.
           key: "id",
         },
       },
