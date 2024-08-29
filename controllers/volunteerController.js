@@ -231,7 +231,6 @@ exports.favoriteOrganization = async (req, res) => {
     });
 
     if (existingFavorite) {
-      // The volunteer has already liked this organization
       console.log("Volunteer has already liked this organization.");
       return res.status(409).send("You have already liked this organization.");
     }
@@ -245,23 +244,32 @@ exports.favoriteOrganization = async (req, res) => {
     console.log("Favorite successfully created:", favorite);
     res.status(201).json(favorite);
   } catch (error) {
-    // Log the error stack for detailed information
+    // Log the detailed error
     console.error("Error in favoriteOrganization function:", error.stack);
 
-    // Determine if it's a specific error type
+    // Prepare a more specific error response
+    let errorMessage = "An unexpected error occurred.";
+
     if (error.name === "SequelizeForeignKeyConstraintError") {
-      console.error("Foreign key constraint error:", error);
-      return res.status(400).send("Invalid volunteerId or organizationId.");
+      errorMessage =
+        "Foreign key constraint error: Invalid volunteerId or organizationId.";
+    } else if (error.name === "SequelizeUniqueConstraintError") {
+      errorMessage = "Unique constraint error: This favorite already exists.";
+    } else if (error.name === "SequelizeValidationError") {
+      errorMessage = `Validation error: ${error.errors
+        .map((e) => e.message)
+        .join(", ")}`;
+    } else if (error.name === "SequelizeDatabaseError") {
+      errorMessage = `Database error: ${error.message}`;
     }
 
-    // Add more specific error handling as needed
-    if (error.name === "SequelizeUniqueConstraintError") {
-      console.error("Unique constraint error:", error);
-      return res.status(409).send("This favorite already exists.");
-    }
-
-    // Generic error response
-    res.status(500).send("Server error");
+    // Send a more specific error response
+    res.status(500).json({
+      message: "Server error",
+      error: errorMessage,
+      // Uncomment the line below in development to include the full stack trace in the response.
+      // stack: error.stack,
+    });
   }
 };
 
