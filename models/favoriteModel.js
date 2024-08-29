@@ -60,7 +60,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "FavoriteOrganizations",
-      tableName: "favoriteorganizations",
+      tableName: "favoriteOrganizations",
       // Other model options
     }
   );
