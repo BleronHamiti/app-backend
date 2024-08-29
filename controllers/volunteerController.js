@@ -218,6 +218,10 @@ exports.favoriteOrganization = async (req, res) => {
     const { organizationId } = req.body;
     const volunteerId = req.volunteer.id;
 
+    // Log incoming data for debugging
+    console.log("Received volunteerId:", volunteerId);
+    console.log("Received organizationId:", organizationId);
+
     // Check if the like already exists
     const existingFavorite = await FavoriteOrganizations.findOne({
       where: {
@@ -228,6 +232,7 @@ exports.favoriteOrganization = async (req, res) => {
 
     if (existingFavorite) {
       // The volunteer has already liked this organization
+      console.log("Volunteer has already liked this organization.");
       return res.status(409).send("You have already liked this organization.");
     }
 
@@ -237,9 +242,25 @@ exports.favoriteOrganization = async (req, res) => {
       organizationId,
     });
 
+    console.log("Favorite successfully created:", favorite);
     res.status(201).json(favorite);
   } catch (error) {
-    console.error(error);
+    // Log the error stack for detailed information
+    console.error("Error in favoriteOrganization function:", error.stack);
+
+    // Determine if it's a specific error type
+    if (error.name === "SequelizeForeignKeyConstraintError") {
+      console.error("Foreign key constraint error:", error);
+      return res.status(400).send("Invalid volunteerId or organizationId.");
+    }
+
+    // Add more specific error handling as needed
+    if (error.name === "SequelizeUniqueConstraintError") {
+      console.error("Unique constraint error:", error);
+      return res.status(409).send("This favorite already exists.");
+    }
+
+    // Generic error response
     res.status(500).send("Server error");
   }
 };
