@@ -218,7 +218,6 @@ exports.favoriteOrganization = async (req, res) => {
     const { organizationId } = req.body;
     const volunteerId = req.volunteer.id;
 
-    // Log incoming data for debugging
     console.log("Received volunteerId:", volunteerId);
     console.log("Received organizationId:", organizationId);
 
@@ -244,32 +243,14 @@ exports.favoriteOrganization = async (req, res) => {
     console.log("Favorite successfully created:", favorite);
     res.status(201).json(favorite);
   } catch (error) {
-    // Log the detailed error
+    // Log the error stack for more details
     console.error("Error in favoriteOrganization function:", error.stack);
 
-    // Prepare a more specific error response
-    let errorMessage = "An unexpected error occurred.";
+    // Include the error message directly in the response
+    const errorMessage = `Error: ${error.message}`;
 
-    if (error.name === "SequelizeForeignKeyConstraintError") {
-      errorMessage =
-        "Foreign key constraint error: Invalid volunteerId or organizationId.";
-    } else if (error.name === "SequelizeUniqueConstraintError") {
-      errorMessage = "Unique constraint error: This favorite already exists.";
-    } else if (error.name === "SequelizeValidationError") {
-      errorMessage = `Validation error: ${error.errors
-        .map((e) => e.message)
-        .join(", ")}`;
-    } else if (error.name === "SequelizeDatabaseError") {
-      errorMessage = `Database error: ${error.message}`;
-    }
-
-    // Send a more specific error response
-    res.status(500).json({
-      message: "Server error",
-      error: errorMessage,
-      // Uncomment the line below in development to include the full stack trace in the response.
-       stack: error.stack,
-    });
+    // Send a more specific error response including the error message
+    res.status(500).send(`Server error: ${errorMessage}`);
   }
 };
 
