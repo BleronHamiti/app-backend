@@ -268,7 +268,7 @@ exports.favoriteOrganization = async (req, res) => {
       message: "Server error",
       error: errorMessage,
       // Uncomment the line below in development to include the full stack trace in the response.
-      // stack: error.stack,
+       stack: error.stack,
     });
   }
 };
